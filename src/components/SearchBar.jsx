@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 
-const SearchBar = () => {
+const SearchBar = ({ onSearch }) => {
   const [query, setQuery] = useState('');
 
-  const handleSearch = (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    // Placeholder for search functionality
-    console.log('Searching for:', query);
+    onSearch(query);
   };
 
   return (
-    <form onSubmit={handleSearch}>
+    <form onSubmit={handleSubmit}>
       <input
         type="text"
         value={query}

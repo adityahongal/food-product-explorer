@@ -1,9 +1,8 @@
-// src/components/ProductList.jsx
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-import { fetchProducts } from '../services/api';
+import { fetchProducts, searchProducts } from '../services/api';
 
-const ProductList = () => {
+const ProductList = ({ searchQuery }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -12,7 +11,12 @@ const ProductList = () => {
     const loadProducts = async () => {
       try {
         setLoading(true);
-        const fetchedProducts = await fetchProducts();
+        let fetchedProducts;
+        if (searchQuery) {
+          fetchedProducts = await searchProducts(searchQuery);
+        } else {
+          fetchedProducts = await fetchProducts();
+        }
         setProducts(fetchedProducts);
         setLoading(false);
       } catch (err) {
@@ -22,16 +26,20 @@ const ProductList = () => {
     };
 
     loadProducts();
-  }, []);
+  }, [searchQuery]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
 
   return (
-    <div className="product-list">
-      {products.map(product => (
-        <ProductCard key={product.id} product={product} />
-      ))}
+    <div>
+      {products.length > 0 ? (
+        products.map(product => (
+          <ProductCard key={product.id} product={product} />
+        ))
+      ) : (
+        <div>No products found.</div>
+      )}
     </div>
   );
 };

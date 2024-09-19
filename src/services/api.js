@@ -74,3 +74,4 @@ export const fetchProductsByCategory = async (category, page = 1, pageSize = 20)
     throw error;
   }
 };
+
