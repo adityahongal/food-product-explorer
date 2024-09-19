@@ -8,7 +8,7 @@ const ProductCard = ({ product }) => {
       <h3>{product.product_name}</h3>
       <p>Category: {product.categories_tags[0]}</p>
       <p>Nutrition Grade: {product.nutrition_grades}</p>
-      <Link to={`/product/${product.id}`}>View Details</Link>
+      <Link to={`/product/${product.code}`}>View Details</Link>
     </div>
   );
 };
