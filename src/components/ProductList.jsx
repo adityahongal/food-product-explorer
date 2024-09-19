@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import ProductCard from './ProductCard';
-import { fetchProducts, searchProducts } from '../services/api';
+import { fetchProducts, searchProducts, fetchProductsByCategory } from '../services/api';
 
-const ProductList = ({ searchQuery }) => {
+const ProductList = ({ searchQuery, category }) => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -14,6 +14,8 @@ const ProductList = ({ searchQuery }) => {
         let fetchedProducts;
         if (searchQuery) {
           fetchedProducts = await searchProducts(searchQuery);
+        } else if (category) {
+          fetchedProducts = await fetchProductsByCategory(category);
         } else {
           fetchedProducts = await fetchProducts();
         }
@@ -26,7 +28,7 @@ const ProductList = ({ searchQuery }) => {
     };
 
     loadProducts();
-  }, [searchQuery]);
+  }, [searchQuery, category]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>{error}</div>;
